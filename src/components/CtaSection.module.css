@@ -10,6 +10,8 @@
   text-align: center;
   overflow: hidden;
   cursor: default;
+  transform-style: preserve-3d;
+  will-change: transform;
 
   /* Scale Up 등장 초기값 */
   opacity: 0;
@@ -18,6 +20,16 @@
     opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.4s ease;
+}
+
+.ctaGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-2xl);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1;
 }
 
 /* 스크롤 진입 시 → 원래 크기로 */
