@@ -1,7 +1,19 @@
 import styles from "./HeroSection.module.css";
 import Link from "next/link";
 
-export default function HeroSection() {
+const tagColors = [
+  "linear-gradient(135deg, #3B82F6, #8B5CF6)",
+  "linear-gradient(135deg, #10B981, #34D399)",
+  "linear-gradient(135deg, #F59E0B, #F97316)",
+];
+
+const tagIcons = [
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>,
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>,
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+];
+
+export default function HeroSection({ jobs = [] }) {
   return (
     <section className={styles.hero}>
       {/* Background Elements */}
@@ -77,36 +89,26 @@ export default function HeroSection() {
               <span className={styles.vcTitle}>Latest Opportunities</span>
             </div>
             <div className={styles.vcList}>
-              <div className={styles.vcItem}>
-                <div className={styles.vcIcon} style={{ background: 'linear-gradient(135deg, #3B82F6, #8B5CF6)' }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
-                </div>
-                <div className={styles.vcText}>
-                  <strong>Frontend Developer</strong>
-                  <span>Sydney CBD · Full-time</span>
-                </div>
-                <div className={`badge badge-accent ${styles.vcBadge}`}>New</div>
-              </div>
-              <div className={styles.vcItem}>
-                <div className={styles.vcIcon} style={{ background: 'linear-gradient(135deg, #10B981, #34D399)' }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-                </div>
-                <div className={styles.vcText}>
-                  <strong>Marketing Specialist</strong>
-                  <span>North Sydney · Full-time</span>
-                </div>
-                <div className={`badge badge-primary ${styles.vcBadge}`}>Hot</div>
-              </div>
-              <div className={styles.vcItem}>
-                <div className={styles.vcIcon} style={{ background: 'linear-gradient(135deg, #F59E0B, #F97316)' }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                </div>
-                <div className={styles.vcText}>
-                  <strong>Business Analyst</strong>
-                  <span>Parramatta · Contract</span>
-                </div>
-                <div className={`badge badge-warning ${styles.vcBadge}`}>Urgent</div>
-              </div>
+              {jobs.slice(0, 3).map((job, i) => (
+                <Link href={`/jobs/${job.id}`} key={job.id} className={styles.vcItem} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div className={styles.vcIcon} style={{ background: tagColors[i % tagColors.length] }}>
+                    {tagIcons[i % tagIcons.length]}
+                  </div>
+                  <div className={styles.vcText}>
+                    <strong>{job.title}</strong>
+                    <span>{job.location}{job.employmentType ? ` · ${job.employmentType}` : ""}</span>
+                  </div>
+                  <div className={`badge badge-accent ${styles.vcBadge}`}>New</div>
+                </Link>
+              ))}
+              {jobs.length === 0 && (
+                <>
+                  <div className={styles.vcItem}>
+                    <div className={styles.vcIcon} style={{ background: tagColors[0] }}>{tagIcons[0]}</div>
+                    <div className={styles.vcText}><strong>공고 로딩 중...</strong><span>Sydney</span></div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

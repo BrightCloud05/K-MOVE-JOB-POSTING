@@ -17,7 +17,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSection />
+      <HeroSection jobs={jobs} />
 
       {/* Latest Jobs Section */}
       <section className={styles.jobsSection}>
