@@ -17,8 +17,6 @@ const WORDS = [
   '건축 엔지니어',
   '프로젝트 매니저',
   '영업 전문가',
-  '사이버보안 전문가',
-  '소프트웨어 엔지니어',
   '재무 분석가',
   '공급망 전문가',
   'HR 전문가',
@@ -161,16 +159,15 @@ export default function HeroSection({ jobs = [] }) {
             <span className="gradient-text">
               {typedWord}
               <span className={styles.cursor}>|</span>
-            </span>로
+            </span>
+            <span className={styles.titleSuffix}>로</span>
             <br />
             시작하세요
           </h1>
 
           {/* Subtitle */}
           <p className={styles.subtitle}>
-            KOTRA K-Move Sydney는 한국 인재의 해외 취업을 지원합니다.
-            <br />
-            IT, 마케팅, 금융 등 다양한 분야의 채용 기회를 만나보세요.
+            KOTRA K-Move Sydney는 한국 인재의 해외 취업을 지원합니다. IT, 마케팅, 금융 등 다양한 분야의 채용 기회를 만나보세요.
           </p>
 
           {/* CTA Buttons */}

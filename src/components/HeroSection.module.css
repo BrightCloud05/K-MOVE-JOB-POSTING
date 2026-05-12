@@ -397,7 +397,23 @@
 /* 모바일 타이틀 줄바꿈 방지 */
 @media (max-width: 480px) {
   .title {
-    font-size: var(--text-3xl);
+    font-size: var(--text-2xl);
+    letter-spacing: -0.02em;
+  }
+
+  .titleSuffix {
+    display: inline;
+  }
+
+  .ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ctas a {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
 
   .stats {
@@ -415,4 +431,8 @@
     min-width: 70px;
     text-align: center;
   }
+}
+
+.titleSuffix {
+  color: var(--color-text-inverse);
 }
