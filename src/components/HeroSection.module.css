@@ -397,12 +397,24 @@
 /* 모바일 타이틀 줄바꿈 방지 */
 @media (max-width: 480px) {
   .title {
-    font-size: var(--text-2xl);
+    font-size: 2.4rem;
     letter-spacing: -0.02em;
+    line-height: 1.15;
   }
 
   .titleSuffix {
     display: inline;
+  }
+
+  .topBadge {
+    font-size: 0.6rem;
+    padding: 4px 10px;
+    letter-spacing: 0.04em;
+  }
+
+  .badgeDot {
+    width: 5px;
+    height: 5px;
   }
 
   .ctas {
