@@ -1,0 +1,251 @@
+.page {
+  padding-top: var(--nav-height);
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  position: relative;
+  padding: var(--space-16) 0 var(--space-12);
+  overflow: hidden;
+  text-align: center;
+}
+
+.headerBg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0A0F1C 0%, #111D35 50%, #0D1628 100%);
+}
+
+.headerBg::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 201, 167, 0.1), transparent 70%);
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.headerContent {
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-size: var(--text-5xl);
+  font-weight: 900;
+  color: var(--color-text-inverse);
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-4);
+}
+
+.subtitle {
+  font-size: var(--text-xl);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Body */
+.body {
+  padding: var(--space-10) 0 var(--space-20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Sections */
+.section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+}
+
+.sectionIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+.section h2 {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.01em;
+}
+
+.section p {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  margin-bottom: var(--space-3);
+}
+
+.section p:last-child {
+  margin-bottom: 0;
+}
+
+.section strong {
+  color: var(--color-primary);
+}
+
+/* Process */
+.processSection {
+  margin-top: var(--space-4);
+}
+
+.processTitle {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+.processGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+}
+
+.processCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.processCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary-200);
+}
+
+.processNumber {
+  font-size: var(--text-4xl);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-3);
+  line-height: 1;
+}
+
+.processCard h3 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.processCard p {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Contact */
+.contactSection {
+  margin-top: var(--space-4);
+}
+
+.contactCard {
+  background: linear-gradient(135deg, var(--color-primary-50), rgba(0, 201, 167, 0.05));
+  border: 1px solid var(--color-primary-200);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-10);
+  text-align: center;
+}
+
+.contactCard h2 {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.contactCard > p {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  color: var(--color-text-secondary);
+}
+
+.contactItem svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-primary);
+}
+
+.contactItem div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contactItem strong {
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.contactItem a,
+.contactItem span {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.contactItem a:hover {
+  color: var(--color-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: var(--text-4xl);
+  }
+
+  .processGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .body {
+    padding: var(--space-6) var(--space-4) var(--space-16);
+  }
+
+  .section {
+    padding: var(--space-6);
+  }
+
+  .contactCard {
+    padding: var(--space-6);
+  }
+}
