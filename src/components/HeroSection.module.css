@@ -379,3 +379,40 @@
     display: none;
   }
 }
+
+/* Typewriter 커서 */
+.cursor {
+  display: inline-block;
+  color: var(--color-accent);
+  font-weight: 300;
+  margin-left: 2px;
+  animation: blink 0.9s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* 모바일 타이틀 줄바꿈 방지 */
+@media (max-width: 480px) {
+  .title {
+    font-size: var(--text-3xl);
+  }
+
+  .stats {
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    row-gap: var(--space-5);
+  }
+
+  .statDivider {
+    display: none;
+  }
+
+  .stat {
+    flex: 1;
+    min-width: 70px;
+    text-align: center;
+  }
+}

@@ -4,6 +4,61 @@ import styles from "./HeroSection.module.css";
 import Link from "next/link";
 import { useRef, useCallback, useEffect, useState } from "react";
 
+
+// Typewriter 훅
+const WORDS = [
+  'IT 개발자',
+  '데이터 분석가',
+  '마케터',
+  '회계사',
+  'UI/UX 디자이너',
+  '물류 전문가',
+  '간호사',
+  '건축 엔지니어',
+  '프로젝트 매니저',
+  '영업 전문가',
+  '사이버보안 전문가',
+  '소프트웨어 엔지니어',
+  '재무 분석가',
+  '공급망 전문가',
+  'HR 전문가',
+];
+const TYPE_SPEED = 80;   // 타이핑 속도 (ms)
+const DELETE_SPEED = 45; // 삭제 속도 (ms)
+const PAUSE_MS = 1800;   // 완성 후 대기 (ms)
+
+function useTypewriter() {
+  const [displayed, setDisplayed] = useState('');
+  const [wordIdx, setWordIdx] = useState(0);
+  const [phase, setPhase] = useState('typing'); // 'typing' | 'pausing' | 'deleting'
+
+  useEffect(() => {
+    const word = WORDS[wordIdx];
+
+    if (phase === 'typing') {
+      if (displayed.length < word.length) {
+        const t = setTimeout(() => setDisplayed(word.slice(0, displayed.length + 1)), TYPE_SPEED);
+        return () => clearTimeout(t);
+      } else {
+        const t = setTimeout(() => setPhase('deleting'), PAUSE_MS);
+        return () => clearTimeout(t);
+      }
+    }
+
+    if (phase === 'deleting') {
+      if (displayed.length > 0) {
+        const t = setTimeout(() => setDisplayed(displayed.slice(0, -1)), DELETE_SPEED);
+        return () => clearTimeout(t);
+      } else {
+        setWordIdx((i) => (i + 1) % WORDS.length);
+        setPhase('typing');
+      }
+    }
+  }, [displayed, phase, wordIdx]);
+
+  return displayed;
+}
+
 // Stats 카운팅 훅
 function useCountUp(target, duration = 1500, start = false) {
   const [count, setCount] = useState(0);
@@ -58,6 +113,7 @@ export default function HeroSection({ jobs = [] }) {
   const count1 = useCountUp(150, 1500, statsVisible);
   const count2 = useCountUp(50, 1500, statsVisible);
   const count3 = useCountUp(10, 1200, statsVisible);
+  const typedWord = useTypewriter();
 
   const handleMouseMove = useCallback((e) => {
     if (!spotlightRef.current) return;
@@ -102,7 +158,10 @@ export default function HeroSection({ jobs = [] }) {
           <h1 className={styles.title}>
             호주 시드니에서
             <br />
-            <span className="gradient-text">글로벌 커리어</span>를
+            <span className="gradient-text">
+              {typedWord}
+              <span className={styles.cursor}>|</span>
+            </span>로
             <br />
             시작하세요
           </h1>
