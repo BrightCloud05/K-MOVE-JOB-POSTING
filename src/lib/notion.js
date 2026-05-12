@@ -15,12 +15,6 @@ export async function getJobs() {
   try {
     const response = await notion.databases.query({
       database_id: databaseId,
-      filter: {
-        property: "상태",
-        status: {
-          does_not_equal: "Done",
-        },
-      },
       sorts: [
         {
           property: "마감일",
