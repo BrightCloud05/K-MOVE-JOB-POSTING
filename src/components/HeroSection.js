@@ -1,5 +1,27 @@
+"use client";
+
 import styles from "./HeroSection.module.css";
 import Link from "next/link";
+import { useRef, useCallback, useEffect, useState } from "react";
+
+// Stats 카운팅 훅
+function useCountUp(target, duration = 1500, start = false) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    let startTime = null;
+    const step = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      // easeOut 곡선
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [start, target, duration]);
+  return count;
+}
 
 const tagColors = [
   "linear-gradient(135deg, #3B82F6, #8B5CF6)",
@@ -8,14 +30,59 @@ const tagColors = [
 ];
 
 const tagIcons = [
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>,
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>,
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+  <svg key="0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>,
+  <svg key="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>,
+  <svg key="2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
 ];
 
 export default function HeroSection({ jobs = [] }) {
+  const spotlightRef = useRef(null);
+  const statsRef = useRef(null);
+  const [statsVisible, setStatsVisible] = useState(false);
+
+  // Stats IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStatsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (statsRef.current) observer.observe(statsRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const count1 = useCountUp(150, 1500, statsVisible);
+  const count2 = useCountUp(50, 1500, statsVisible);
+  const count3 = useCountUp(10, 1200, statsVisible);
+
+  const handleMouseMove = useCallback((e) => {
+    if (!spotlightRef.current) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    spotlightRef.current.style.left = `${x}px`;
+    spotlightRef.current.style.top = `${y}px`;
+    spotlightRef.current.style.opacity = "1";
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!spotlightRef.current) return;
+    spotlightRef.current.style.opacity = "0";
+  }, []);
+
   return (
-    <section className={styles.hero}>
+    <section
+      className={styles.hero}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Spotlight Glow */}
+      <div ref={spotlightRef} className={styles.spotlight} />
+
       {/* Background Elements */}
       <div className={styles.bgGradient}></div>
       <div className={styles.bgGrid}></div>
@@ -61,19 +128,25 @@ export default function HeroSection({ jobs = [] }) {
           </div>
 
           {/* Stats */}
-          <div className={styles.stats}>
+          <div className={styles.stats} ref={statsRef}>
             <div className={styles.stat}>
-              <span className={styles.statNumber}>150+</span>
+              <span className={styles.statNumber}>
+                {statsVisible ? count1 : 0}<span className={styles.statPlus}>+</span>
+              </span>
               <span className={styles.statLabel}>취업 성공</span>
             </div>
             <div className={styles.statDivider}></div>
             <div className={styles.stat}>
-              <span className={styles.statNumber}>50+</span>
+              <span className={styles.statNumber}>
+                {statsVisible ? count2 : 0}<span className={styles.statPlus}>+</span>
+              </span>
               <span className={styles.statLabel}>파트너 기업</span>
             </div>
             <div className={styles.statDivider}></div>
             <div className={styles.stat}>
-              <span className={styles.statNumber}>10+</span>
+              <span className={styles.statNumber}>
+                {statsVisible ? count3 : 0}<span className={styles.statPlus}>+</span>
+              </span>
               <span className={styles.statLabel}>산업 분야</span>
             </div>
           </div>
@@ -102,12 +175,10 @@ export default function HeroSection({ jobs = [] }) {
                 </Link>
               ))}
               {jobs.length === 0 && (
-                <>
-                  <div className={styles.vcItem}>
-                    <div className={styles.vcIcon} style={{ background: tagColors[0] }}>{tagIcons[0]}</div>
-                    <div className={styles.vcText}><strong>공고 로딩 중...</strong><span>Sydney</span></div>
-                  </div>
-                </>
+                <div className={styles.vcItem}>
+                  <div className={styles.vcIcon} style={{ background: tagColors[0] }}>{tagIcons[0]}</div>
+                  <div className={styles.vcText}><strong>공고 로딩 중...</strong><span>Sydney</span></div>
+                </div>
               )}
             </div>
           </div>

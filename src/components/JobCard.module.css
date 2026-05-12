@@ -6,12 +6,26 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
-  transition: all var(--transition-base);
   cursor: pointer;
   text-decoration: none;
   color: inherit;
   position: relative;
   overflow: hidden;
+
+  /* 스크롤 등장 초기값 */
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* 스크롤 진입 후 */
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .card::before {

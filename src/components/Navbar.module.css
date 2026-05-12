@@ -35,7 +35,30 @@
 
 .logoIcon {
   display: flex;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
   transition: transform var(--transition-spring);
+}
+
+/* shimmer overlay */
+.logoIcon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: none;
+}
+
+.logo:hover .logoIcon::after {
+  transform: translateX(100%);
+  transition: transform 0.5s ease;
 }
 
 .logo:hover .logoIcon {

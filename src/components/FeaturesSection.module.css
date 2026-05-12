@@ -1,0 +1,152 @@
+.featuresSection {
+  padding: var(--space-20) 0;
+  background: var(--color-bg-secondary);
+}
+
+/* 헤더 등장 */
+.featureHeader {
+  text-align: center;
+  margin-bottom: var(--space-12);
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.featureHeader.headerVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.featureHeader .section-subtitle {
+  margin: var(--space-2) auto 0;
+}
+
+/* perspective wrapper — 3D tilt이 작동하려면 부모에 perspective 필요 */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  perspective: 1000px;
+}
+
+/* 카드 초기 상태 */
+.featureCard {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  text-align: center;
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+
+  /* 3D tilt을 위한 transform-style */
+  transform-style: preserve-3d;
+  will-change: transform;
+
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+
+  /* 등장 transition — JS가 덮어쓰기 전까지만 */
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* 스크롤 진입 후 → tilt은 JS inline style로 처리 */
+.featureCard.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotateX(0deg) rotateY(0deg);
+  /* hover/tilt시 transition을 부드럽게 */
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.12s ease-out,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* 마우스 leave 시 복귀를 부드럽게 */
+.featureCard.visible:not(:hover) {
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.featureCard.visible:hover {
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    0 8px 20px rgba(0, 0, 0, 0.06);
+  border-color: transparent;
+}
+
+/* 마우스 위치 glow */
+.cardGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+/* 카드 내용은 glow 위에 */
+.featureCard > *:not(.cardGlow) {
+  position: relative;
+  z-index: 1;
+}
+
+.featureIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-5);
+  transition: transform 0.3s ease;
+}
+
+.featureCard.visible:hover .featureIcon {
+  transform: scale(1.1) rotate(-4deg);
+}
+
+.featureCard h3 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-3);
+  color: var(--color-text-primary);
+}
+
+.featureCard p {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+@media (max-width: 1024px) {
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 모바일에서는 tilt 비활성화 (터치 환경) */
+@media (max-width: 768px) {
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    perspective: none;
+  }
+
+  .featureCard.visible {
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+}

@@ -1,13 +1,39 @@
+"use client";
+
 import Link from "next/link";
 import styles from "./JobCard.module.css";
+import { useEffect, useRef, useState } from "react";
 
-export default function JobCard({ job }) {
+export default function JobCard({ job, index = 0 }) {
+  const cardRef = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // index에 따른 stagger 딜레이
+          setTimeout(() => setVisible(true), index * 80);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (cardRef.current) observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [index]);
+
   const isUrgent = job.deadline && isWithinDays(job.deadline, 14);
   const isNew = isWithinDays(job.createdAt, 7);
   const daysLeft = job.deadline ? getDaysUntil(job.deadline) : null;
 
   return (
-    <Link href={`/jobs/${job.id}`} className={styles.card} id={`job-card-${job.id}`}>
+    <Link
+      href={`/jobs/${job.id}`}
+      className={`${styles.card} ${visible ? styles.visible : ""}`}
+      ref={cardRef}
+      id={`job-card-${job.id}`}
+    >
       {/* Status Badges */}
       <div className={styles.badges}>
         {isNew && <span className="badge badge-accent">New</span>}

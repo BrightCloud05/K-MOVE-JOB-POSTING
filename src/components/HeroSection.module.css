@@ -7,6 +7,20 @@
   padding-top: var(--nav-height);
 }
 
+/* Spotlight Glow */
+.spotlight {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 179, 237, 0.12) 0%, rgba(66, 153, 225, 0.06) 40%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  z-index: 1;
+}
+
 /* Background */
 .bgGradient {
   position: absolute;
@@ -137,6 +151,12 @@
   font-size: var(--text-2xl);
   font-weight: 800;
   color: var(--color-text-inverse);
+}
+
+.statPlus {
+  color: var(--color-accent);
+  font-size: var(--text-xl);
+  font-weight: 800;
 }
 
 .statLabel {

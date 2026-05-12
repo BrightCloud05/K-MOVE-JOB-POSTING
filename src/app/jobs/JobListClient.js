@@ -77,13 +77,7 @@ export default function JobListClient({ jobs }) {
       {filteredJobs.length > 0 ? (
         <div className={styles.jobsGrid}>
           {filteredJobs.map((job, index) => (
-            <div
-              key={job.id}
-              className="animate-fade-in-up"
-              style={{ animationDelay: `${index * 0.05}s`, opacity: 0 }}
-            >
-              <JobCard job={job} />
-            </div>
+            <JobCard key={job.id} job={job} index={index} />
           ))}
         </div>
       ) : (
